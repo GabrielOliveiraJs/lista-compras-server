@@ -10,6 +10,16 @@ function createNewItem(newItem) {
     fs.writeFileSync('./db/itens.json', JSON.stringify(newListOfItens))
 }
 
+function alterItem(modifications, id) {
+    let currentItems = JSON.parse(fs.readFileSync('./db/itens.json'))
+    const modifiedIndex = currentItems.findIndex(item => item.id === Number(id))
+
+    const modifiedContent = { ...currentItems[modifiedIndex], ...modifications }
+
+    currentItems[modifiedIndex] = modifiedContent
+    fs.writeFileSync('./db/itens.json', JSON.stringify(currentItems))
+}
+
 function deleteItemById(id) {
     const itens = JSON.parse(fs.readFileSync('./db/itens.json'))
     const filteredItens = itens.filter(item => item.id !== Number(id))
@@ -20,5 +30,6 @@ function deleteItemById(id) {
 module.exports = {
     getAllItens,
     createNewItem,
+    alterItem,
     deleteItemById
 }
